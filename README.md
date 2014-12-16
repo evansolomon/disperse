@@ -1,6 +1,11 @@
 # Disperse
 
-Resize Kinesis stream and automatically maintain evenly-sized shards.
+Resize Kinesis streams and automatically maintain evenly-sized shards.
+
+
+## Why?
+
+[Kinesis](https://aws.amazon.com/kinesis/) is great, but its API for scaling streams is pretty bad unless you either always want to double or halve your stream capacity (you don't) or you are fine with massively different shard sizes across your stream (you're not).  Disperse takes a target stream capacity (e.g. 4 shards) or change to your current stream capacity (e.g. add 2 shards) and resizes things so that you come out with the number of shards you want that are all the same size.
 
 
 ## Usage
