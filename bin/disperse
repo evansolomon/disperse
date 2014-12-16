@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+
+var minimist = require('minimist')
+var disperse = require('../')
+
+var args = minimist(process.argv.slice(2))
+
+if (args.h || args.help || args._[0] === 'help') {
+  printHelp()
+  process.exit()
+}
+
+var method
+var count
+if (args.upsize) {
+  method = 'upsize'
+  count = args.upsize
+} else if (args.downsize) {
+  method = 'downsize'
+  count = args.downsize
+} else if (args.resize) {
+  method = 'resize'
+  count = args.resize
+}
+
+try {
+  var controller = new disperse.Controller(args.stream, args.aws)
+  controller[method].call(controller, count, function (err) {
+    if (err) {
+      console.error(err)
+      if (args.verbose) console.error(err.stack)
+      process.exit(1)
+    }
+  })
+} catch (err) {
+  console.error('Error', err.message)
+  printHelp()
+  process.exit(1)
+}
+
+function printHelp() {
+  console.log('Usage:')
+  console.log('  --stream       [stream name]')
+  console.log('  --aws.[option] [option value]')
+  console.log('  --upsize       [shards to add]')
+  console.log('  --downsize     [shards to remove]')
+  console.log('  --resize       [target shards]')
+  console.log()
+  console.log('Only use one of --upsize, --downsize, or --resize')
+}
