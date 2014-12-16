@@ -14,7 +14,7 @@ disperse --stream some-click-stream --upsize 2 --aws.region us-east-1
 Help output.
 
 ```
-$ ./bin/disperse help
+$ disperse help
 Usage:
   --stream       [stream name]
   --aws.[option] [option value]
